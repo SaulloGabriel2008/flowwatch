@@ -2,13 +2,13 @@
    FIREBASE (Global Variables from Compat)
    ========================================= */
 const firebaseConfig = {
-  apiKey: "AIzaSyA4_zbYskKq3_MGHEMHqseQOYSlAhci1pE",
-  authDomain: "espaco-festas.firebaseapp.com",
-  projectId: "espaco-festas",
-  storageBucket: "espaco-festas.firebasestorage.app",
-  messagingSenderId: "549023732364",
-  appId: "1:549023732364:web:50932267b387f97ba461a9",
-  measurementId: "G-P4GWS6KLCF"
+  apiKey: "AIzaSyA_IfWftCmZEJHzRA7O8A1W3_9apn2BX8s",
+  authDomain: "flowwatch-9d2b4.firebaseapp.com",
+  projectId: "flowwatch-9d2b4",
+  storageBucket: "flowwatch-9d2b4.firebasestorage.app",
+  messagingSenderId: "566478675194",
+  appId: "1:566478675194:web:095ec93634d5136ce8fd43",
+  measurementId: "G-56EVTRPK5K"
 };
 
 let db = null;
