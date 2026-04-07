@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowWatch - Premium Media Tracker</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Main Application Container -->
+  <main id="app">
+
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="brand">
+        <i class="bi bi-lightbulb-fill"></i> FlowWatch
+      </div>
+      <button class="icon-btn" id="header-settings-btn">
+        <i class="bi bi-gear-fill"></i>
+      </button>
+    </header>
+
+    <!-- Views Container -->
+    <div class="views-wrapper">
+
+      <!-- HOME VIEW -->
+      <section id="view-home" class="view active">
+        <div class="view-content pb-nav">
+          <div class="greeting-block">
+            <span class="greeting-sub" id="greeting-time">BOA NOITE, CURADOR</span>
+            <h1 class="greeting-title">Sua jornada<br>continua.</h1>
+          </div>
+
+          <div class="stats-overview">
+            <div class="stat-card">
+              <i class="bi bi-stars stat-icon"></i>
+              <h2 id="home-hours">0</h2>
+              <p>Horas Assistidas</p>
+            </div>
+            <div class="stat-card">
+              <i class="bi bi-check2-all stat-icon"></i>
+              <h2 id="home-completion">0%</h2>
+              <p>Taxa de Conclusão</p>
+            </div>
+          </div>
+
+          <div class="section-header">
+            <h3 id="in-progress-title">Em Andamento</h3>
+          </div>
+          <div class="horizontal-scroll" id="home-in-progress">
+            <div class="loading-spinner hidden" id="home-loading"></div>
+          </div>
+
+          <div class="monthly-overview-card">
+            <div class="mo-header">
+              <div>
+                <h3 id="current-month-label">Visão Geral</h3>
+                <p><span id="mo-entries">0</span> registros este mês</p>
+              </div>
+              <div class="mo-date">
+                <span id="mo-day">08</span>
+                <small id="mo-weekday">SEX</small>
+              </div>
+            </div>
+            <div class="mo-grid" id="mo-grid">
+              <!-- Rendered via JS -->
+            </div>
+            <div class="mo-footer">
+              <i class="bi bi-star-fill"></i>
+              <span>Gênero Favorito: <strong id="top-genre-label">Nenhum</strong></span>
+            </div>
+          </div>
+
+          <div class="section-header">
+            <h3>Adicionados Recentemente</h3>
+          </div>
+          <div class="grid-layout" id="home-recently-curated">
+          </div>
+        </div>
+      </section>
+
+      <!-- SEARCH VIEW -->
+      <section id="view-search" class="view">
+        <div class="view-content pb-nav">
+          <div class="search-header">
+            <div class="search-input-wrapper">
+              <i class="bi bi-search"></i>
+              <input type="text" id="search-input" placeholder="Buscar filmes, séries ou animes...">
+            </div>
+            <div class="segment-control" id="search-segments">
+              <button class="segment active" data-type="movie">Filmes</button>
+              <button class="segment" data-type="tv">Séries</button>
+              <button class="segment" data-type="anime">Animes</button>
+            </div>
+            <div style="margin-top: -12px; margin-bottom: 24px; display: flex; justify-content: flex-end;">
+              <button id="btn-open-filter-modal" class="segment" style="padding: 6px 14px; font-size: 0.85rem; border-radius: var(--radius-full); gap: 6px; display: flex; align-items: center;">
+                <i class="bi bi-funnel"></i> Filtros
+              </button>
+            </div>
+          </div>
+
+          <div class="search-results hidden" id="search-results-container">
+            <div class="grid-layout" id="search-results-grid"></div>
+          </div>
+          <div class="search-idle" id="search-idle">
+            <div class="idle-content">
+              <i class="bi bi-collection-play"></i>
+              <p>Descubra novas jornadas emocionais.</p>
+            </div>
+          </div>
+          <div class="loading-spinner hidden" id="search-loading"></div>
+        </div>
+      </section>
+
+      <!-- CATALOG VIEW -->
+      <section id="view-catalog" class="view">
+        <div class="view-content pb-nav">
+          <div class="search-header">
+            <h2 style="font-family: var(--font-heading); margin-bottom: 12px; font-weight: 600;">Catálogo</h2>
+            <div class="segment-control" id="catalog-segments">
+              <button class="segment active" data-type="all">Todos</button>
+              <button class="segment" data-type="movie">Filmes</button>
+              <button class="segment" data-type="tv">Séries</button>
+              <button class="segment" data-type="anime">Animes</button>
+            </div>
+            <div style="margin-top: -12px; margin-bottom: 24px; display: flex; justify-content: flex-end;">
+              <button id="btn-open-catalog-filter" class="segment" style="padding: 6px 14px; font-size: 0.85rem; border-radius: var(--radius-full); gap: 6px; display: flex; align-items: center;">
+                <i class="bi bi-funnel"></i> Ordenar & Filtrar
+              </button>
+            </div>
+          </div>
+
+          <div class="loading-spinner hidden" id="catalog-loading"></div>
+          <div class="search-results hidden" id="catalog-results-container">
+            <div class="grid-layout" id="catalog-results-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LIBRARY VIEW -->
+      <section id="view-library" class="view">
+        <div class="view-content pb-nav">
+          <div class="library-header">
+            <h1>Coleção</h1>
+            <div class="segment-control scrollable" id="library-filters">
+              <button class="segment active" data-filter="all">Todos</button>
+              <button class="segment" data-filter="watching">Assistindo</button>
+              <button class="segment" data-filter="completed">Concluídos</button>
+              <button class="segment" data-filter="plan">Pretendo Assistir</button>
+              <button class="segment" data-filter="dropped">Abandonados</button>
+            </div>
+          </div>
+          <div class="grid-layout" id="library-grid">
+          </div>
+        </div>
+      </section>
+
+      <!-- STATS VIEW -->
+      <section id="view-stats" class="view">
+        <div class="view-content pb-nav">
+          <div class="stats-header">
+            <h1>Reflexões</h1>
+            <p class="subtitle">Sua jornada cinematográfica em números.</p>
+          </div>
+
+          <div class="stats-main-card">
+            <h3>Tempo Total</h3>
+            <h1 id="stats-total-hours">0h</h1>
+            <p>imerso em outros mundos</p>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat-box">
+              <h4>Filmes</h4>
+              <span id="stats-movies-count">0</span>
+            </div>
+            <div class="stat-box">
+              <h4>Séries</h4>
+              <span id="stats-series-count">0</span>
+            </div>
+            <div class="stat-box">
+              <h4>Animes</h4>
+              <span id="stats-anime-count">0</span>
+            </div>
+          </div>
+
+          <div class="genre-chart-container">
+            <h3>Gêneros Favoritos</h3>
+            <ul class="genre-list" id="stats-genres">
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-target="home">
+        <i class="bi bi-house-door-fill"></i>
+        <span>Início</span>
+      </button>
+      <button class="nav-item" data-target="search">
+        <i class="bi bi-search"></i>
+        <span>Buscar</span>
+      </button>
+      <button class="nav-item" data-target="catalog">
+        <i class="bi bi-compass"></i>
+        <span>Catálogo</span>
+      </button>
+      <button class="nav-item" data-target="library">
+        <i class="bi bi-collection-play-fill"></i>
+        <span>Biblioteca</span>
+      </button>
+      <button class="nav-item" data-target="stats">
+        <i class="bi bi-bar-chart-fill"></i>
+        <span>Perfil</span>
+      </button>
+    </nav>
+  </main>
+
+  <!-- Detail Modal -->
+  <div class="modal" id="detail-modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header-actions">
+        <button class="icon-btn modal-close"><i class="bi bi-chevron-down"></i></button>
+      </div>
+      <div class="detail-hero">
+        <div class="hero-image" id="detail-image"></div>
+        <div class="hero-gradient"></div>
+        <div class="hero-info">
+          <div class="detail-badge" id="detail-type-badge">FILME</div>
+          <h1 id="detail-title">Title</h1>
+          <p class="detail-meta" id="detail-meta">2023</p>
+          <p class="detail-meta detail-runtime" id="detail-runtime" style="opacity: 0.8; font-size: 0.85rem; margin-top: 4px;"></p>
+          <p class="detail-curiosity" id="detail-curiosity" style="opacity: 0.7; font-size: 0.8rem; font-style: italic; margin-top: 4px; color: var(--gold-accent);"></p>
+        </div>
+      </div>
+      <div class="detail-body">
+
+        <!-- Action Buttons Context -->
+        <div class="detail-providers hidden" id="detail-providers">
+          <span>Onde assistir:</span>
+          <div class="provider-list" id="provider-list-container">
+            <!-- Tags or icons from JS -->
+          </div>
+        </div>
+
+        <p class="detail-desc" id="detail-desc"></p>
+
+        <div class="action-block" id="detail-action-block"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase compatibility scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics-compat.js"></script>
+
+  <!-- SETTINGS MODAL (Backup & Login) -->
+  <div class="modal" id="settings-modal">
+    <div class="modal-backdrop" id="settings-modal-backdrop"></div>
+    <div class="modal-content settings-modal-content">
+      <div class="modal-header-actions" style="top: 16px; right: 16px;">
+        <button class="modal-close" id="settings-close" style="color:var(--text-color);"><i class="bi bi-x-lg"></i></button>
+      </div>
+
+      <div class="settings-header">
+        <h2>Configurações</h2>
+        <p>Controle de conta e backup sincronizado.</p>
+      </div>
+      
+      <!-- NOT LOGGED IN -->
+      <div id="settings-unauth-view">
+        <div class="settings-cloud-icon">
+          <div class="cloud-glow"></div>
+          <i class="bi bi-cloud-arrow-up-fill"></i>
+        </div>
+        <h3 class="settings-cta-title">Proteja sua Biblioteca</h3>
+        <p class="settings-cta-desc">Faça login gratuitamente com o Google para habilitar o backup automático e sincronizar sua coleção em qualquer dispositivo.</p>
+
+        <button id="btn-login-google" class="btn-google-login">
+          <svg class="google-logo" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          <span>Continuar com o Google</span>
+        </button>
+
+        <div class="settings-features">
+          <div class="feature-item">
+            <i class="bi bi-shield-check"></i>
+            <span>Dados protegidos</span>
+          </div>
+          <div class="feature-item">
+            <i class="bi bi-phone"></i>
+            <span>Multi-dispositivo</span>
+          </div>
+          <div class="feature-item">
+            <i class="bi bi-arrow-repeat"></i>
+            <span>Sync automático</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOGGED IN -->
+      <div id="settings-auth-view" class="hidden">
+        <div class="settings-cloud-icon connected">
+          <div class="cloud-glow connected"></div>
+          <i class="bi bi-cloud-check-fill"></i>
+        </div>
+        <h3 class="settings-cta-title">Sincronização Ativa</h3>
+        <p id="user-email-display" class="settings-user-email"></p>
+        <p class="settings-cta-desc">Sua coleção está protegida e sendo sincronizada em tempo real com a nuvem.</p>
+        
+        <div class="settings-sync-status">
+          <div class="sync-dot"></div>
+          <span>Backup ativo</span>
+        </div>
+
+        <button id="btn-logout" class="btn-logout">
+          <i class="bi bi-box-arrow-left"></i>
+          <span>Desconectar conta</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER MODAL -->
+  <div class="modal" id="filter-modal">
+    <div class="modal-backdrop" id="filter-modal-backdrop"></div>
+    <div class="modal-content" style="max-height: 80vh; padding: var(--spacing-lg);">
+      <div class="modal-header-actions" style="top: 16px; right: 16px;">
+        <button class="modal-close" id="filter-close" style="color:var(--text-color);"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div style="margin-bottom: 24px; margin-top: 12px;">
+        <h2 style="font-family: var(--font-heading); margin-bottom: 16px;">Filtros de <span id="filter-modal-title">Busca</span></h2>
+        
+        <div id="sort-section" class="hidden">
+          <h4 style="margin-bottom: 8px; font-weight: 500;">Ordenar por</h4>
+          <select id="catalog-sort" style="width:100%; padding: 12px; background: var(--border-color); color: var(--text-color); border:none; border-radius: var(--radius-md); font-family: var(--font-body); margin-bottom: 24px;">
+            <option value="trending">Mais Populares (Em alta)</option>
+            <option value="top_rated">Mais Bem Avaliados</option>
+          </select>
+        </div>
+
+        <h4 style="margin-bottom: 8px; font-weight: 500;">Gênero</h4>
+        <div class="grid-layout" style="grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px;" id="filter-genres-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <button id="btn-apply-filters" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 24px;">Aplicar Filtros</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
